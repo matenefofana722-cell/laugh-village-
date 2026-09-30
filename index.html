@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Laugh Village LIVE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:-apple-system,system-ui,sans-serif}
+.top{position:sticky;top:0;background:#000000ee;backdrop-filter:blur(10px);border-bottom:1px solid #222;padding:12px;z-index:10;display:flex;justify-content:space-between;align-items:center}
+.top h1{font-size:18px}
+.live{color:#0f0;font-size:11px;border:1px solid #0f0;padding:2px 6px;border-radius:99px}
+.feed{padding:10px}
+.card{background:#111;border:1px solid #222;border-radius:16px;padding:12px;margin-bottom:12px}
+.card img{width:100%;border-radius:12px;margin-top:8px}
+.actions{display:flex;gap:8px;margin-top:10px}
+.actions button{flex:1;background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:10px;padding:10px;font-weight:700}
+.actions button.liked{background:#fff;color:#000}
+.bar{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #222;display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:8px 6px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.bar button{background:#fff;color:#000;border:0;border-radius:12px;padding:12px 2px;font-weight:900;font-size:11px;line-height:1.1}
+.bar button span{display:block;font-size:18px}
+#postBox{display:none;background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin-bottom:12px}
+#postBox textarea{width:100%;background:#000;color:#fff;border:1px solid #333;border-radius:10px;padding:10px;resize:none}
+</style>
+</head>
+<body>
+<div class="top">
+<h1>😂 Laugh Village</h1>
+<div class="live">● LIVE</div>
+</div>
+
+<div class="feed" id="feed">
+<div id="postBox">
+<textarea id="txt" rows="3" placeholder="What's funny?"></textarea>
+<button onclick="doPost()" style="margin-top:8px;width:100%;background:#fff;color:#000;border:0;border-radius:10px;padding:12px;font-weight:900">Post to Village</button>
+</div>
+
+<div class="card" id="c1">
+<b>@matene</b> <small style="color:#666">• now • NW10</small>
+<div style="margin-top:6px">Village tools — we build with what we have 🔥 Discreet build V1</div>
+<img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=600">
+<div class="actions">
+<button id="likeBtn" onclick="like()">❤️ <span id="likeCount">12</span></button>
+<button onclick="comment()">💬 Comment</button>
+<button onclick="share()">↗️ Share</button>
+</div>
+</div>
+</div>
+
+<div class="bar">
+<button onclick="like()"><span>❤️</span>Like</button>
+<button onclick="comment()"><span>💬</span>Comment</button>
+<button onclick="share()"><span>↗️</span>Share</button>
+<button onclick="openPost()"><span>✏️</span>Post</button>
+<button onclick="village()"><span>🌍</span>Village</button>
+<button onclick="profile()"><span>👤</span>Profile</button>
+</div>
+
+<script>
+let liked=false, count=12;
+function like(){
+ liked=!liked;
+ count+= liked?1:-1;
+ document.getElementById('likeCount').innerText=count;
+ document.getElementById('likeBtn').classList.toggle('liked',liked);
+ if(navigator.vibrate) navigator.vibrate(30);
+}
+function comment(){
+ let c=prompt('Add comment:');
+ if(c){alert('Posted: '+c+' 💬');}
+}
+function share(){
+ if(navigator.share){navigator.share({title:'Laugh Village',text:'Check Laugh Village LIVE',url:location.href})}
+ else {navigator.clipboard.writeText(location.href); alert('Link copied ↗️ — LIVE');}
+}
+function openPost(){
+ let b=document.getElementById('postBox');
+ b.style.display= b.style.display==='block'?'none':'block';
+ document.getElementById('txt').focus();
+}
+function doPost(){
+ let t=document.getElementById('txt').value.trim();
+ if(!t) return;
+ let d=document.createElement('div');
+ d.className='card';
+ d.innerHTML=`<b>@matene</b> <small style="color:#666">• just now</small><div style="margin-top:6px">${t}</div><div class="actions"><button>❤️ 0</button><button>💬 Comment</button><button>↗️ Share</button></div>`;
+ document.getElementById('feed').insertBefore(d, document.getElementById('feed').children[1]);
+ document.getElementById('txt').value='';
+ document.getElementById('postBox').style.display='none';
+}
+function village(){ window.scrollTo({top:0,behavior:'smooth'}); alert('🌍 Village Feed — LIVE');}
+function profile(){ alert('👤 @matene\nLondon NW10\nLaugh Village Founder\n19 • Building discreet');}
+</script>
+</body>
+</html>
